@@ -2,6 +2,8 @@
 namespace SseClient;
 
 
+use InvalidArgumentException;
+
 class Event
 {
     /** @var string */
@@ -34,15 +36,13 @@ class Event
     public static function parse($raw)
     {
         $event = new static();
-        $lines = preg_split('/$\R?^/m', $raw);
+        $lines = preg_split("/\r\n|\n|\r/", $raw);
 
         foreach ($lines as $line) {
             $matched = preg_match('/(?P<name>[^:]*):?( ?(?P<value>.*))?/', $line, $matches);
 
             if (!$matched) {
-                # Malformed line. Silently discard.
-                // TODO: Think on this. Maybe should throw exception
-                continue;
+                throw new InvalidArgumentException(sprintf('Invalid line %s', $line));
             }
 
             $name = $matches['name'];

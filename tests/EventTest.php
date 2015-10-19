@@ -1,6 +1,7 @@
 <?php
+namespace SseClient\Tests;
 
-
+use PHPUnit_Framework_TestCase;
 use SseClient\Event;
 
 class EventTest extends PHPUnit_Framework_TestCase

@@ -18,6 +18,8 @@ class Client
      */
     public function getMessages()
     {
+        $endOfMessage = "/\r\n\r\n|\n\n|\r\r/";
+
         $response = $this->client->request('GET', '/items.json', [
             'stream' => true,
             'headers' => ['Accept' => 'text/event-stream']
@@ -26,10 +28,18 @@ class Client
         $buffer = '';
         $body = $response->getBody();
         while (!$body->eof()) {
-            echo $body->read(1024);
-//            while (!Event::completed($buffer) && !$body->eof()) {
-//                $buffer .= $body->read(1);
-//            }
+            $buffer .= $body->read(1);
+            if (preg_match($endOfMessage, $buffer)) {
+                $parts = preg_split($endOfMessage, $buffer, 2);
+
+                $rawMessage = $parts[0];
+                $remaining = $parts[1];
+
+                $buffer = $remaining;
+
+                $event = Event::parse($rawMessage);
+                yield $event;
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 <?php
-require_once 'SseClient.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // example callback function
 function someCallbackFunction($message){
@@ -7,7 +7,7 @@ function someCallbackFunction($message){
 }
 $url = 'https://eventsource.firebaseio-demo.com/.json';
 
-$client = new SseClient($url);
+$client = new SseClient\Client();
 
 // returns generator
 $messages = $client->getMessages();

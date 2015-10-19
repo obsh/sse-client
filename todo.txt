@@ -1,7 +1,7 @@
 [x] implement event parsing
-
+[x] implement stream splitting on events
 - implement connection with required headers and redirects handle
-- implement stream splitting on events
+
 - implement reconnects ?
 .
 - review phpDocs
