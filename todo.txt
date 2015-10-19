@@ -1,0 +1,12 @@
+[x] implement event parsing
+
+- implement connection with required headers and redirects handle
+- implement stream splitting on events
+- implement reconnects ?
+.
+- review phpDocs
+- finish SseClient
+
+- implement FirebaseStreamClient
+
+- compare event parsing with specification
