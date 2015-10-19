@@ -21,6 +21,9 @@ class Client
     /** @var  int - reconnection time in milliseconds */
     private $retry = self::RETRY_DEFAULT_MS;
 
+    /**
+     * @param string $url
+     */
     public function __construct($url)
     {
         $this->url = $url;
@@ -33,6 +36,9 @@ class Client
         $this->connect();
     }
 
+    /**
+     * Connect to server
+     */
     private function connect()
     {
         $headers = [];
@@ -51,9 +57,10 @@ class Client
     }
 
     /**
-     * @return array
+     * Returns generator that yields new event when it's available on stream
+     * @return Event[]
      */
-    public function getMessages()
+    public function getEvents()
     {
         $buffer = '';
         $body = $this->response->getBody();

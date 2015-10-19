@@ -4,14 +4,6 @@
 [x] implement lastId and retry period handling
 [x] implement reconnection
 [x] take into account HTTP 204 code
-- gracefully handle connection failure
-- check auth wit firebase
-- validate input params
-.
-- review phpDocs
-
+[x] check auth wit firebase
+[x] review phpDocs
 - Make PHP 5.3 compatible ?
-
-- implement FirebaseStreamClient
-
-- compare event parsing with specification
