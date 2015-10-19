@@ -7,10 +7,27 @@ class Client
 {
     /** @var  GuzzleHttp\Client */
     private $client;
+    /** @var GuzzleHttp\Psr7\Response */
+    private $response;
+    /** @var string */
+    private $path;
 
-    public function __construct()
+    public function __construct($baseUri, $path = '/')
     {
-        $this->client = new GuzzleHttp\Client(['base_uri' => 'https://popping-heat-3439.firebaseio.com']);
+        $this->client = new GuzzleHttp\Client(['base_uri' => $baseUri]);
+        $this->path = $path;
+        $this->connect();
+    }
+
+    private function connect()
+    {
+        $this->response = $this->client->request('GET', sprintf('%s.json', $this->path), [
+            'stream' => true,
+            'headers' => [
+                'Accept' => 'text/event-stream',
+                'Cache-Control' => 'no-cache'
+            ]
+        ]);
     }
 
     /**
@@ -20,13 +37,8 @@ class Client
     {
         $endOfMessage = "/\r\n\r\n|\n\n|\r\r/";
 
-        $response = $this->client->request('GET', '/items.json', [
-            'stream' => true,
-            'headers' => ['Accept' => 'text/event-stream']
-        ]);
-
         $buffer = '';
-        $body = $response->getBody();
+        $body = $this->response->getBody();
         while (!$body->eof()) {
             $buffer .= $body->read(1);
             if (preg_match($endOfMessage, $buffer)) {

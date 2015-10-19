@@ -7,7 +7,7 @@ function someCallbackFunction($message){
 }
 $url = 'https://eventsource.firebaseio-demo.com/.json';
 
-$client = new SseClient\Client();
+$client = new SseClient\Client('https://popping-heat-3439.firebaseio.com', '/items');
 
 // returns generator
 $messages = $client->getMessages();
