@@ -1,7 +1,7 @@
 [x] implement event parsing
 [x] implement stream splitting on events
 [x] implement connection with required headers
-- implement lastId and retry handling
+[x] implement lastId and retry period handling
 - check auth wit firebase
 - validate input params
 
