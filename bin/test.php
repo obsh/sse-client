@@ -5,7 +5,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 function someCallbackFunction($message){
     print_r($message);
 }
-$url = 'https://eventsource.firebaseio-demo.com/.json';
 
 $client = new SseClient\Client('https://popping-heat-3439.firebaseio.com/items.json');
 

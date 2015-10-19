@@ -6,6 +6,8 @@ use InvalidArgumentException;
 
 class Event
 {
+    const END_OF_LINE = "/\r\n|\n|\r/";
+
     /** @var string */
     private $data;
     /** @var string */
@@ -36,7 +38,7 @@ class Event
     public static function parse($raw)
     {
         $event = new static();
-        $lines = preg_split("/\r\n|\n|\r/", $raw);
+        $lines = preg_split(self::END_OF_LINE, $raw);
 
         foreach ($lines as $line) {
             $matched = preg_match('/(?P<name>[^:]*):?( ?(?P<value>.*))?/', $line, $matches);

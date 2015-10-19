@@ -6,6 +6,7 @@ use GuzzleHttp;
 class Client
 {
     const RETRY_DEFAULT_MS = 3000;
+    const END_OF_MESSAGE = "/\r\n\r\n|\n\n|\r\r/";
 
     /** @var  GuzzleHttp\Client */
     private $client;
@@ -22,17 +23,18 @@ class Client
     public function __construct($url)
     {
         $this->url = $url;
-        $this->client = new GuzzleHttp\Client();
+        $this->client = new GuzzleHttp\Client([
+            'headers' => [
+                'Accept' => 'text/event-stream',
+                'Cache-Control' => 'no-cache'
+            ]
+        ]);
         $this->connect();
     }
 
     private function connect()
     {
-        $headers = [
-            'Accept' => 'text/event-stream',
-            'Cache-Control' => 'no-cache'
-        ];
-
+        $headers = [];
         if ($this->lastId) {
             $headers['Last-Event-ID'] = $this->lastId;
         }
@@ -48,14 +50,21 @@ class Client
      */
     public function getMessages()
     {
-        $endOfMessage = "/\r\n\r\n|\n\n|\r\r/";
-
         $buffer = '';
         $body = $this->response->getBody();
-        while (!$body->eof()) {
+        while (true) {
+            // if server close connection - try to reconnect
+            if ($body->eof()) {
+                // wait retry period before reconnection
+                sleep($this->retry / 1000);
+                $this->connect();
+                // clear buffer since there is no sense in partial message
+                $buffer = '';
+            }
+
             $buffer .= $body->read(1);
-            if (preg_match($endOfMessage, $buffer)) {
-                $parts = preg_split($endOfMessage, $buffer, 2);
+            if (preg_match(self::END_OF_MESSAGE, $buffer)) {
+                $parts = preg_split(self::END_OF_MESSAGE, $buffer, 2);
 
                 $rawMessage = $parts[0];
                 $remaining = $parts[1];
