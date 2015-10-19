@@ -2,10 +2,9 @@
 [x] implement stream splitting on events
 [x] implement connection with required headers
 [x] implement lastId and retry period handling
+- implement reconnection
 - check auth wit firebase
 - validate input params
-
-- implement reconnects ?
 .
 - review phpDocs
 

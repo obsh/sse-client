@@ -5,22 +5,24 @@ use GuzzleHttp;
 
 class Client
 {
+    const RETRY_DEFAULT_MS = 3000;
+
     /** @var  GuzzleHttp\Client */
     private $client;
     /** @var GuzzleHttp\Psr7\Response */
     private $response;
 
-    /** @var string - path to listen, must start from root "/" */
-    private $path;
+    /** @var string - requesting url * */
+    private $url;
     /** @var  string - last received message id */
     private $lastId;
     /** @var  int - reconnection time in milliseconds */
-    private $retry = 3000;
+    private $retry = self::RETRY_DEFAULT_MS;
 
-    public function __construct($baseUri, $path = '/')
+    public function __construct($url)
     {
-        $this->client = new GuzzleHttp\Client(['base_uri' => $baseUri]);
-        $this->path = $path;
+        $this->url = $url;
+        $this->client = new GuzzleHttp\Client();
         $this->connect();
     }
 
@@ -35,7 +37,7 @@ class Client
             $headers['Last-Event-ID'] = $this->lastId;
         }
 
-        $this->response = $this->client->request('GET', sprintf('%s.json', $this->path), [
+        $this->response = $this->client->request('GET', $this->url, [
             'stream' => true,
             'headers' => $headers
         ]);
