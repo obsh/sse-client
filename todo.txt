@@ -3,7 +3,7 @@
 [x] implement connection with required headers
 [x] implement lastId and retry period handling
 [x] implement reconnection
-- take into account HTTP 204 code
+[x] take into account HTTP 204 code
 - gracefully handle connection failure
 - check auth wit firebase
 - validate input params

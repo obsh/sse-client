@@ -2,6 +2,7 @@
 namespace SseClient;
 
 use GuzzleHttp;
+use RuntimeException;
 
 class Client
 {
@@ -43,6 +44,10 @@ class Client
             'stream' => true,
             'headers' => $headers
         ]);
+
+        if ($this->response->getStatusCode() == 204) {
+            throw new RuntimeException('Server forbid connection retry by responding 204 status code.');
+        }
     }
 
     /**
