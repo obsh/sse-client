@@ -1,9 +1,0 @@
-[x] implement event parsing
-[x] implement stream splitting on events
-[x] implement connection with required headers
-[x] implement lastId and retry period handling
-[x] implement reconnection
-[x] take into account HTTP 204 code
-[x] check auth wit firebase
-[x] review phpDocs
-- Make PHP 5.3 compatible ?

@@ -1,11 +1,14 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+
+require_once __DIR__.'/../vendor/autoload.php';
 
 /**
- * example callback function
+ * example callback function.
+ *
  * @param SseClient\Event $event
  */
-function someCallbackFunction(\SseClient\Event $event){
+function someCallbackFunction(\SseClient\Event $event)
+{
     print_r($event);
 }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace SseClient\Tests;
 
 use PHPUnit_Framework_TestCase;
@@ -43,7 +44,6 @@ class EventTest extends PHPUnit_Framework_TestCase
         $event = Event::parse('data');
 
         $this->assertEquals('', $event->getData());
-
     }
 
     public function testCompleteExample()

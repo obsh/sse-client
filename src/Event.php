@@ -1,6 +1,6 @@
 <?php
-namespace SseClient;
 
+namespace SseClient;
 
 use InvalidArgumentException;
 
@@ -20,8 +20,8 @@ class Event
     /**
      * @param string $data
      * @param string $eventType
-     * @param null $id
-     * @param null $retry
+     * @param null   $id
+     * @param null   $retry
      */
     public function __construct($data = '', $eventType = 'message', $id = null, $retry = null)
     {
@@ -33,6 +33,7 @@ class Event
 
     /**
      * @param $raw
+     *
      * @return Event
      */
     public static function parse($raw)
@@ -66,7 +67,7 @@ class Event
                     $event->id = $value;
                     break;
                 case 'retry':
-                    $event->retry = (int)$value;
+                    $event->retry = (int) $value;
                     break;
                 default:
                     // The field is ignored.

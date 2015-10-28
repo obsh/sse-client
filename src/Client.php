@@ -1,4 +1,5 @@
 <?php
+
 namespace SseClient;
 
 use GuzzleHttp;
@@ -30,14 +31,14 @@ class Client
         $this->client = new GuzzleHttp\Client([
             'headers' => [
                 'Accept' => 'text/event-stream',
-                'Cache-Control' => 'no-cache'
-            ]
+                'Cache-Control' => 'no-cache',
+            ],
         ]);
         $this->connect();
     }
 
     /**
-     * Connect to server
+     * Connect to server.
      */
     private function connect()
     {
@@ -48,7 +49,7 @@ class Client
 
         $this->response = $this->client->request('GET', $this->url, [
             'stream' => true,
-            'headers' => $headers
+            'headers' => $headers,
         ]);
 
         if ($this->response->getStatusCode() == 204) {
@@ -57,7 +58,8 @@ class Client
     }
 
     /**
-     * Returns generator that yields new event when it's available on stream
+     * Returns generator that yields new event when it's available on stream.
+     *
      * @return Event[]
      */
     public function getEvents()
