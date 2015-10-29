@@ -1,6 +1,8 @@
 {
-    "name": "root/firebase_rest_stream",
+    "name": "obsh/sse-client",
+    "description": "Server Sent Event client implementation",
     "require": {
+        "php": ">=5.5.0",
         "guzzlehttp/guzzle": "^6.1@dev"
     },
     "authors": [
